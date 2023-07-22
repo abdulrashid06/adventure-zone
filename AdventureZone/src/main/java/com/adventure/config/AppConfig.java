@@ -26,21 +26,23 @@ public class AppConfig {
 		
 		
 		http.sessionManagement(se -> se.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
-		cors(cors ->{
-			cors.configurationSource(new org.springframework.web.cors.CorsConfigurationSource(){
+		cors(cors ->
+		// {
+		// 	cors.configurationSource(new org.springframework.web.cors.CorsConfigurationSource(){
 				
-				@Override
-				public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-				CorsConfiguration configuration= new CorsConfiguration();
-					configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-					configuration.setAllowedMethods(Collections.singletonList("*"));
-					configuration.setAllowCredentials(true);
-					configuration.setAllowedHeaders(Collections.singletonList("*"));
-					configuration.setExposedHeaders(Arrays.asList("Authorization"));
-					return configuration;
-				}
-			});
-        }) .authorizeHttpRequests(auth -> auth
+		// 		@Override
+		// 		public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+		// 		CorsConfiguration configuration= new CorsConfiguration();
+		// 			configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+		// 			configuration.setAllowedMethods(Collections.singletonList("*"));
+		// 			configuration.setAllowCredentials(true);
+		// 			configuration.setAllowedHeaders(Collections.singletonList("*"));
+		// 			configuration.setExposedHeaders(Arrays.asList("Authorization"));
+		// 			return configuration;
+		// 		}
+		// 	});
+        // }
+		) .authorizeHttpRequests(auth -> auth
         		.requestMatchers(HttpMethod.POST, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.GET, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.DELETE, "/adventureZone/**").permitAll()
@@ -55,7 +57,7 @@ public class AppConfig {
 				.csrf(csrf -> csrf.disable())
 				 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
 				 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
-				.formLogin(Customizer.withDefaults())
+				// .formLogin(Customizer.withDefaults())
 				.httpBasic(Customizer.withDefaults());
 		
 		return http.build() ;
