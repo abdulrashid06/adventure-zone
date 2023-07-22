@@ -26,7 +26,7 @@ public class AppConfig {
 		
 		
 		http.sessionManagement(se -> se.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).
-		cors(cors ->
+		cors(cors -> cors.disable()
 		// {
 		// 	cors.configurationSource(new org.springframework.web.cors.CorsConfigurationSource(){
 				
