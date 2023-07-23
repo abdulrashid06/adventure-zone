@@ -72,7 +72,7 @@ public class AppConfig {
             .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
             .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/adventureZone/logout"))
-                .logoutSuccessUrl("/") // Redirect to home page after logout
+                .logoutSuccessUrl("www.google.com") // Redirect to home page after logout
                 .invalidateHttpSession(true) // Invalidate the HttpSession
                 .deleteCookies("JSESSIONID") // Remove JSESSIONID cookie
                 .clearAuthentication(true) // Clear the authentication
