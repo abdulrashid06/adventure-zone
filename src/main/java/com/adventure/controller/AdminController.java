@@ -22,6 +22,9 @@ import com.adventure.repository.AdminRespository;
 import com.adventure.service.AdminServiceImplements;
 import com.adventure.service.CustomerServiceImplements;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @RestController
@@ -74,5 +77,14 @@ public class AdminController {
 		 Admin admin = opt.get();
 		 return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return new ResponseEntity<>("Logout successful", HttpStatus.OK);
+    }
     
 }

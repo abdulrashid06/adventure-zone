@@ -12,14 +12,27 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.security.Key;
 
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
+// public static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+
 
     @Bean
 	public SecurityFilterChain configuration(HttpSecurity http) throws Exception {
@@ -44,7 +57,7 @@ public class AppConfig {
         // }
 		) .authorizeHttpRequests(auth -> auth
         		.requestMatchers(HttpMethod.POST, "/adventureZone/**").permitAll()
-        		.requestMatchers(HttpMethod.GET, "/adventureZone/**").permitAll()
+        		// .requestMatchers(HttpMethod.GET, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.DELETE, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.PUT, "/adventureZone/**").permitAll()
        		// .requestMatchers("/customers/{customerId}","/admins/add").permitAll()
@@ -56,17 +69,27 @@ public class AppConfig {
 				.anyRequest().authenticated())
 				.csrf(csrf -> csrf.disable())
 				 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-				 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
-				// .formLogin(Customizer.withDefaults())
-				.httpBasic(Customizer.withDefaults());
-		
-		return http.build() ;
-		
-	}
+            .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
+            .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/adventureZone/logout"))
+                .logoutSuccessUrl("/") // Redirect to home page after logout
+                .invalidateHttpSession(true) // Invalidate the HttpSession
+                .deleteCookies("JSESSIONID") // Remove JSESSIONID cookie
+                .clearAuthentication(true) // Clear the authentication
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    // Optional additional logout-related tasks if needed
+                })
+                .permitAll()
+                .and()
+            .httpBasic(Customizer.withDefaults());
 
+        return http.build();
+    }
 
     @Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder() ;
-	}
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+   
 }
