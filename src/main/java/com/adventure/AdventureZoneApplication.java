@@ -6,16 +6,16 @@ import javax.crypto.SecretKey;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.authority.AuthorityUtils;
+//import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.adventure.config.SecurityDetails;
+//import com.adventure.config.SecurityDetails;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+//import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.security.Keys;
 
 @SpringBootApplication
 public class AdventureZoneApplication {

@@ -6,8 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/adventureZone")
+@CrossOrigin("*")
 public class CustomerController {
 
     @Autowired
@@ -34,13 +36,13 @@ public class CustomerController {
     @Autowired
     private CustomerRespository customerRepositry;
     
-    @Autowired
-    private PasswordEncoder pe;
+//    @Autowired
+//    private PasswordEncoder pe;
 
     @PostMapping("/addCustomer")
     public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
     	customer.setRole("ROLE_"+customer.getRole().toUpperCase());
-        customer.setPassword(pe.encode(customer.getPassword()));
+//        customer.setPassword(pe.encode(customer.getPassword()));
         Customer cus = cusService.rsegisterCustomer(customer);
         return new ResponseEntity<Customer>(cus, HttpStatus.CREATED);
 
@@ -66,7 +68,7 @@ public class CustomerController {
         return new ResponseEntity<List<Customer>>(cusList, HttpStatus.OK);
     }
 
-    @GetMapping("/cutomers/{customerId}")
+    @GetMapping("/customers/{customerId}")
     public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer customerId) {
         Customer cus = cusService.viewCustomerById(customerId);
         return new ResponseEntity<Customer>(cus, HttpStatus.OK);
@@ -78,12 +80,12 @@ public class CustomerController {
         return new ResponseEntity<Customer>(cus, HttpStatus.CREATED);
     }
     
-    @PostMapping("/customer/signIn")
-	public ResponseEntity<Customer> logInUserHandler(Authentication auth){
-		 Optional<Customer> opt= customerRepositry.findByEmail(auth.getName());
-		 if(opt.isEmpty()) throw new RuntimeException("No user found");
-		 Customer customer = opt.get();
-		 return new ResponseEntity<>(customer, HttpStatus.OK);
-	}
+//    @PostMapping("/customer/signIn")
+//	public ResponseEntity<Customer> logInUserHandler(Authentication auth){
+//		 Optional<Customer> opt= customerRepositry.findByEmail(auth.getName());
+//		 if(opt.isEmpty()) throw new RuntimeException("No user found");
+//		 Customer customer = opt.get();
+//		 return new ResponseEntity<>(customer, HttpStatus.OK);
+//	}
 
 }

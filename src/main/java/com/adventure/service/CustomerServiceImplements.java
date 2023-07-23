@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.adventure.exception.CustomerException;
@@ -20,8 +19,8 @@ public class CustomerServiceImplements implements CustomerServiceInterface {
 	@Autowired
 	private CustomerRespository customerRepositry;
 
-	@Autowired
-	private PasswordEncoder pe;
+//	@Autowired
+//	private PasswordEncoder pe;
 	
 	
 	@Override
@@ -75,11 +74,12 @@ public class CustomerServiceImplements implements CustomerServiceInterface {
 		if(username==null || password==null) throw new CustomerException("Invalid credentials");
 		Customer customer = customerRepositry.findByEmail(username).get();
 
-		if(pe.matches(password, customer.getPassword())){
-			return customer;
-		}else{
-			throw new CustomerException("Invalid password");
-		}
+//		if(pe.matches(password, customer.getPassword())){
+//			return customer;
+//		}else{
+//			throw new CustomerException("Invalid password");
+//		}
+		return customer;
 		
 	}
 
