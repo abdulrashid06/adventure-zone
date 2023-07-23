@@ -1,6 +1,7 @@
 package com.adventure.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -21,20 +22,22 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-				System.out.println("you are in validator class");
+				
 		String jwt= request.getHeader(SecurityDetails.JWT_HEADER);
-		if(jwt != null) {
+		if(jwt != null && jwt.startsWith("Bearer")) {
+
 			try {
-				jwt = jwt.substring(7);
+				String token  = jwt.substring(7).trim();
 				SecretKey key= Keys.hmacShaKeyFor(SecurityDetails.JWT_KEY.getBytes());
-				Claims claims= Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+				Claims claims= Jwts.parserBuilder().setSigningKey(key).build().
+				parseClaimsJws(token).getBody();
 				String username= String.valueOf(claims.get("email"));
 				String authorities = (String) claims.get("authorities");
-				Authentication auth = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+				Authentication auth = new UsernamePasswordAuthenticationToken(username, token, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 				SecurityContextHolder.getContext().setAuthentication(auth);
 				System.out.println("validation sucess");
-			} catch (Exception e) {
-				throw new BadCredentialsException("Token validation failed in validator class ");
+			} catch (JwtException e) {
+				throw new BadCredentialsException(e.getMessage());
 			}
 						
 		}
