@@ -57,7 +57,7 @@ public class AppConfig {
         // }
 		) .authorizeHttpRequests(auth -> auth
         		.requestMatchers(HttpMethod.POST, "/adventureZone/**").permitAll()
-        		// .requestMatchers(HttpMethod.GET, "/adventureZone/**").permitAll()
+        		 .requestMatchers(HttpMethod.GET, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.DELETE, "/adventureZone/**").permitAll()
         		.requestMatchers(HttpMethod.PUT, "/adventureZone/**").permitAll()
        		// .requestMatchers("/customers/{customerId}","/admins/add").permitAll()

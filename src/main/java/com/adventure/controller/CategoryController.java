@@ -33,12 +33,16 @@ public class CategoryController {
 		return new ResponseEntity<Category>(catService.addCategory(category),HttpStatus.CREATED);
 		
 	}
-    @PostMapping("/categories/{activityId}")
- 	public ResponseEntity<Category> addCategoryActivity(@Valid @RequestBody Category category,@PathVariable Integer activityId){
- 		
- 		return new ResponseEntity<Category>(catService.addCategoryWithActivity(category,activityId),HttpStatus.CREATED);
- 		
- 	}
+    
+    
+//    @PostMapping("/categories/{activityId}")
+// 	public ResponseEntity<Category> addCategoryActivity(@Valid @RequestBody Category category,@PathVariable Integer activityId){
+// 		
+// 		return new ResponseEntity<Category>(catService.addCategoryWithActivity(category,activityId),HttpStatus.CREATED);
+// 		
+// 	}
+    
+    
 	@PutMapping("/categories/{categoryId}")
 	public ResponseEntity<Category> updateCategory(@PathVariable Integer categoryId,@RequestBody Category category){
 		
@@ -48,10 +52,10 @@ public class CategoryController {
 	@DeleteMapping("/categories/{categoryId}")
 	public ResponseEntity<String> deleteCategory(@PathVariable Integer categoryId){
 		catService.DeleteCategory(categoryId);
-		return new ResponseEntity<String>("",HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("Category Deleted Successfully",HttpStatus.ACCEPTED);
 	}
     
-	@GetMapping("/categories")
+	@GetMapping("/categoryList")
 	public ResponseEntity<List<Category>> getCategory(){
 		return new ResponseEntity<List<Category>>(catService.viewAllcategory(),HttpStatus.OK);
 	}

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,7 @@ public class CustomerController {
     private PasswordEncoder pe;
 
     @PostMapping("/addCustomer")
-    public ResponseEntity<Customer> rsegisterCustomer(@Valid @RequestBody Customer customer) {
+    public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
     	customer.setRole("ROLE_"+customer.getRole().toUpperCase());
         customer.setPassword(pe.encode(customer.getPassword()));
         Customer cus = cusService.rsegisterCustomer(customer);
@@ -51,16 +52,19 @@ public class CustomerController {
         return new ResponseEntity<Customer>(cus, HttpStatus.ACCEPTED);
     }
 
-//    public ResponseEntity<String> DeleteCustomer(Integer customerId) {
-//        Customer cus = cusService.DeleteCustomer(customerId);
-//        return new ResponseEntity<String>("customer is deleted", HttpStatus.ACCEPTED);
-//    }
+    
+    @DeleteMapping("/customers/{customerId}")
+    public ResponseEntity<String> DeleteCustomer(@PathVariable Integer customerId) {
+        cusService.DeleteCustomer(customerId);
+        return new ResponseEntity<String>("customer is deleted '"+customerId+"' ", HttpStatus.ACCEPTED);
+    }
 
-//    @GetMapping("/customers_list")
-//    public ResponseEntity<List<Customer>> viewAllcustomer() {
-//        List<Customer> cusList = cusService.viewAllcustomer();
-//        return new ResponseEntity<List<Customer>>(cusList, HttpStatus.OK);
-//    }
+    
+    @GetMapping("/customerList")
+    public ResponseEntity<List<Customer>> viewAllcustomer() {
+        List<Customer> cusList = cusService.viewAllcustomer();
+        return new ResponseEntity<List<Customer>>(cusList, HttpStatus.OK);
+    }
 
     @GetMapping("/cutomers/{customerId}")
     public ResponseEntity<Customer> viewCustomerById(@PathVariable Integer customerId) {

@@ -1,6 +1,7 @@
 package com.adventure.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,9 +13,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.PastOrPresent;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,9 +45,11 @@ public class Ticket {
 	@Column(nullable = false)
 	private boolean isExpired;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryId")
-	private Category category;
+
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="categoryId")
+	private List<Category>  category;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customerId")

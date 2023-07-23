@@ -18,7 +18,7 @@ public interface AdminServiceInterface {
 	public List<Activity> viewAllactivity();
 	public List<Activity> viewAllactivityCategorywise();
 	public List<Activity> viewAllactivitydatewise(LocalDate date);
-	public List<Activity> viewAllactivityforDays(Integer customerId,LocalDateTime fromDate,LocalDateTime enddate);
+	public List<Activity> viewAllTicketsforDays(LocalDateTime fromDate,LocalDateTime enddate);
 	List<Admin> viewAlladmin();
 
 }

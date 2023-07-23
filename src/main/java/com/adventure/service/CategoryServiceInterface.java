@@ -14,5 +14,5 @@ public interface CategoryServiceInterface {
 	public List<Category> viewAllcategory();
 	
 	
-	public Category addCategoryWithActivity(Category category,Integer activityId);
+//	public Category addCategoryWithActivity(Category category,Integer activityId);
 }

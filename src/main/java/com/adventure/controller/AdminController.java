@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,7 @@ public class AdminController {
     private PasswordEncoder pe;
 
     @PostMapping("/addAdmins")
-    public ResponseEntity<Admin> rsegisterAdmin(@Valid @RequestBody Admin customer) {
+    public ResponseEntity<Admin> registerAdmin(@Valid @RequestBody Admin customer) {
     	customer.setRole("ROLE_"+customer.getRole().toUpperCase());
         customer.setPassword(pe.encode(customer.getPassword()));
         Admin cus = adminService.registerAdmin(customer);
@@ -57,11 +58,11 @@ public class AdminController {
     	Admin adm= adminService.updateAdmin(adminId, admin);
         return new ResponseEntity<Admin>(adm, HttpStatus.ACCEPTED);
     }
-
-//    public ResponseEntity<String> DeleteCustomer(Integer adminId) {
-//        Admin cus = adminService.DeleteAdmin(adminId);
-//        return new ResponseEntity<String>("customer is deleted", HttpStatus.ACCEPTED);
-//    }
+ @DeleteMapping("/admins/{adminId}")
+    public ResponseEntity<String> DeleteCustomer(@PathVariable Integer adminId) {
+        adminService.DeleteAdmin(adminId);
+        return new ResponseEntity<String>("customer is deleted", HttpStatus.ACCEPTED);
+    }
 
     @GetMapping("/admins/customers_list")
     public ResponseEntity<List<Customer>> viewAllcustomer() {

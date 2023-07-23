@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adventure.model.Ticket;
@@ -28,15 +29,15 @@ public class TicketController {
 	
 	
 	@PostMapping("/tickets")
-	public ResponseEntity<Ticket> addTicket(@Valid @RequestBody Ticket ticket){
+	public ResponseEntity<Ticket> addTicket(@Valid @RequestBody Ticket ticket, @RequestParam Integer cusId, @RequestParam List<String> catNames ){
 		
-		return new ResponseEntity<Ticket>(ticketService.generateTicket(ticket),HttpStatus.CREATED);
+		return new ResponseEntity<Ticket>(ticketService.generateTicket(ticket, cusId, catNames),HttpStatus.CREATED);
 		
 	}
 	@PutMapping("/tickets/{ticketId}")
-	public ResponseEntity<Ticket> updateTicket(@PathVariable Integer ticketId,@RequestBody Ticket ticket){
+	public ResponseEntity<Ticket> updateTicket(@PathVariable Integer ticketId , @RequestParam List<String> catNames){
 		
-		return new ResponseEntity<Ticket>(ticketService.updateTicket(ticketId,ticket),HttpStatus.ACCEPTED);
+		return new ResponseEntity<Ticket>(ticketService.updateTicket(ticketId,catNames),HttpStatus.ACCEPTED);
 		
 	}
 	@DeleteMapping("/tickets/{ticketId}")

@@ -144,16 +144,30 @@ public class AdminServiceImplements implements AdminServiceInterface {
 
 	@Override
 	public List<Activity> viewAllactivitydatewise(LocalDate date) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		 LocalDateTime startOfDay = date.atStartOfDay();
+		
+		 List<Activity> actList = activityRepo.findAll()
+		            .stream()
+		            .filter(a -> a.getCreatedDate().isAfter(startOfDay))
+		            .toList();
+		    return actList;
 	}
 
 
 	@Override
-	public List<Activity> viewAllactivityforDays(Integer customerId, LocalDateTime fromDate, LocalDateTime enddate) {
+	public List<Activity> viewAllTicketsforDays(LocalDateTime fromDate, LocalDateTime enddate) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		 List<Activity> actList = activityRepo.findAll()
+		            .stream()
+		            .filter(a -> a.getCreatedDate().isAfter(fromDate) && a.getCreatedDate().isBefore(enddate))
+		            .toList();
+		    return actList;
+		
 	}
 
+
+	
 	
 }

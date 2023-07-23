@@ -21,7 +21,7 @@ public class ActivityServiceImplements implements ActivityServiceInterface {
 	private ActivityRespository activityRepositry;
 	
 	@Override
-	public Activity addActivity(Activity activity) {
+	public Activity addActivity(Activity activity){
 		if(activity==null) throw new CustomerException("The activity you have provided is null");
 		Optional<Activity> act = activityRepositry.findById(activity.getActivityId());
 		if(act.isPresent()) throw new CustomerException("Activity already exists");
