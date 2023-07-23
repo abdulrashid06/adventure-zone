@@ -67,7 +67,7 @@ public class AdminController {
     }
 
     
-    @GetMapping("/admin/signIn")
+    @PostMapping("/admin/signIn")
 	public ResponseEntity<Admin> logInUserHandler(Authentication auth){
 		 Optional<Admin> opt= adminRepositry.findByEmail(auth.getName());
 		 if(opt.isEmpty()) throw new RuntimeException("No user found") ;

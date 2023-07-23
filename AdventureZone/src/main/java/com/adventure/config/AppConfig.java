@@ -52,7 +52,7 @@ public class AppConfig {
 				.requestMatchers("/adventureZone/customer/signIn").hasRole("USER")
 				.requestMatchers("/adventureZone/admin/signIn").hasRole("ADMIN")
 //				.requestMatchers("/hello").hasRole("ADMIN")
-//				.requestMatchers(HttpMethod.GET, "/customers_list").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/customers_list").hasRole("ADMIN")
 				.anyRequest().authenticated())
 				.csrf(csrf -> csrf.disable())
 				 .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)

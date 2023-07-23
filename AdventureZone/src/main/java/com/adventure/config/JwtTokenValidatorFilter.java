@@ -21,6 +21,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+				System.out.println("you are in validator class");
 		String jwt= request.getHeader(SecurityDetails.JWT_HEADER);
 		if(jwt != null) {
 			try {
@@ -31,8 +32,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 				String authorities = (String) claims.get("authorities");
 				Authentication auth = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 				SecurityContextHolder.getContext().setAuthentication(auth);
+				System.out.println("validation sucess");
 			} catch (Exception e) {
-				throw new BadCredentialsException("Invalid Token received..");
+				throw new BadCredentialsException("Token validation failed in validator class ");
 			}
 						
 		}

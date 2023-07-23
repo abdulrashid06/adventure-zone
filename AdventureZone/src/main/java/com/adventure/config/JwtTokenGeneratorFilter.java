@@ -28,7 +28,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication() ;
-		System.out.println();
+		System.out.println("you are in jwt token generator class");
 		if(authentication != null) {
 			SecretKey key = Keys.hmacShaKeyFor(SecurityDetails.JWT_KEY.getBytes()) ;
 			String jwt = Jwts.builder()
@@ -39,10 +39,11 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 					.setIssuedAt(new Date())
 					.setExpiration(new Date( new Date().getTime()+20000000))
 					.signWith(key).compact() ;
+					System.out.println("token generator success");
 			response.setHeader(SecurityDetails.JWT_HEADER, jwt);
 		}
 		else {
-			System.out.println("something went wrong");
+			System.out.println("you are in jwt token generator class but generator failed");
 		}
 		
 		filterChain.doFilter(request, response);

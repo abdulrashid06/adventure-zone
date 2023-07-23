@@ -74,7 +74,7 @@ public class CustomerController {
         return new ResponseEntity<Customer>(cus, HttpStatus.CREATED);
     }
     
-    @GetMapping("/customer/signIn")
+    @PostMapping("/customer/signIn")
 	public ResponseEntity<Customer> logInUserHandler(Authentication auth){
 		 Optional<Customer> opt= customerRepositry.findByEmail(auth.getName());
 		 if(opt.isEmpty()) throw new RuntimeException("No user found");
